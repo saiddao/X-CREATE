@@ -1,0 +1,54 @@
+Combo-Test Instructions:
+
+Once downloaded, unzip the combo-test zip file to a clean directory.
+Make sure that you have Java 1.5 installed and on your class path appropriately.
+Combo-Test was tested with a jdk of 1.5.0_13, but and JRE of this version or later should work.
+
+The tool requires a connection to a database to run. 
+Currently four types of dbms are supported: 
+1) MySQL
+2) SQLServer
+3) Postgresql
+4) MSAccess
+ 
+The tool connects to one of these databases according to the configuration file: "run.properties".
+The correct driver needs to be selected in this file and the connection string has to be modified to point at the correct host name, database name, instance, port or other pertinant db connection information. The authentication details for the connection are also defined in the run.properties file, update the file with the correct username and password for your dbms.
+An empty database needs to be created in whichever dbms that was chosen.
+ 
+The input to the tool is a tab seperated file that lists the components under test and the values each component can take.
+ 
+For example lets take the example of a (very simple) coffee machine:
+Input 1 is the coffee, and can be set to:
+1) Coffee
+2) Decaf Coffee
+3) Tea
+4) Decaf Tea
+ 
+Input 2 is milk, and can be set to:
+1) Milk
+2) No Milk
+ 
+Input 3 is sugar, and can be set to:
+1) No Sugar
+2) 1 Sugar
+3) 2 Sugar
+4) 3 Sugar
+ 
+The input file for this system would look like this:
+ 
+Input1   Input2   Input3
+Coffee   Milk      No Sugar
+Decaf Coffee      No Milk 1 Sugar
+Tea                   2 Sugar
+Decaf Tea          3 Sugar
+ 
+The first row is the input components, and the columns contain the possible variables each of these inputs can take.
+ 
+Edit run.properties to point to this input file and an output file where you want the results sent. Finally, set the strength of the combintorial logic to whatever you'd like. In the above example, the maximum combinatorial strength is 3 as there are only three inputs (this is equivalent to exhaustive testing in this example).
+ 
+Run the Combo-Test tool from the command line as follows:
+ 
+java -jar combotest-1.1.jar run.properties
+ 
+The output will appear as a list of potential test suites satisfying the combinatorial strength chosen in run.properties. Normally we can select the smallest test suite from this list for execution, but the choice is up to the user. 
+Note that some tests in the suites have input values prepended with the character '~'. These inputs are "don't care" inputs and can be set to any valid value for that component and still satisfy the combinatorial test suite, the option on which value to select is up to the user.
